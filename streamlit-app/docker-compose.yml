@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: DockerFile
+    ports:
+      - 8002:8501
+    volumes:
+      - .:/app
