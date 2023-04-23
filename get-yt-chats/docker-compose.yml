@@ -8,3 +8,7 @@ services:
       - 8000:5000
     volumes:
       - .:/app
+networks:
+  default:
+    external:
+      name: kafka-docker_default

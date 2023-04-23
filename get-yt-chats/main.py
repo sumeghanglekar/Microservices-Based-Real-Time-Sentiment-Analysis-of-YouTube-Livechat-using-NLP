@@ -26,6 +26,8 @@ def index():
 @app.route('/getChats')
 
 def main():
+    results = {}
+    last_timestamp = None
     while True:
         results, last_timestamp = append_last_msgs(results, last_timestamp)
 
@@ -35,17 +37,17 @@ def main():
 def append_last_msgs(results, last_timestamp):
     LIVECHATID = config.LIVECHATID
     API_KEY = config.YOUR_API_KEY
-    # pollid = config.pollid
+    pollid = config.pollid
     # Get channelID here:
     # https://developers.google.com/youtube/v3/live/docs/liveBroadcasts/list
-    # channelId = "UC9EOQimDbyYjbyutqeltXJg"
+    channelId = "UC9EOQimDbyYjbyutqeltXJg"
     # https://youtube.googleapis.com/youtube/v3/liveChat/messages?key=[YOUR_API_KEY]
     baseurl = f"https://youtube.googleapis.com/youtube/v3/liveChat/messages?liveChatId={LIVECHATID}&part=snippet&key={API_KEY}"
 
 
     #Kafka Producer
     producer = KafkaProducer(
-        bootstrap_servers=['localhost:9092'],
+        bootstrap_servers=['kafka:9093'],
         value_serializer=lambda x: dumps(x).encode('utf-8')
     )
 

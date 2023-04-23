@@ -8,8 +8,8 @@ from json import loads
 from time import sleep
 
 consumer = KafkaConsumer(
-    'topic_test',
-    bootstrap_servers=['localhost:9092'],
+    'ytchats',
+    bootstrap_servers=['kafka:9093'],
     auto_offset_reset='latest',
     enable_auto_commit=True,
     group_id='my-group-id',
@@ -53,6 +53,7 @@ while True:
     for event in consumer:
         event_data = event.value
         data.append(event_data)
+        print(data)
         # Do whatever you want
         # print(event_data)
         sleep(2)
