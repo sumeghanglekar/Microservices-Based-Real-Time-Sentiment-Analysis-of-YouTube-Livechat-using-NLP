@@ -10,5 +10,5 @@ services:
       - .:/app
 networks:
   default:
-    external:
-      name: kafka-docker_default
+    external: true
+    name: kafka-docker_default

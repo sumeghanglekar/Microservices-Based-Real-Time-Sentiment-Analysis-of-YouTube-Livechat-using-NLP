@@ -6,6 +6,7 @@ import plotly.express as px  # interactive charts
 from kafka import KafkaConsumer
 from json import loads
 from time import sleep
+import requests
 
 consumer = KafkaConsumer(
     'ytchats',
@@ -27,9 +28,19 @@ st.set_page_config(
 
 # dashboard title
 
-st.title("Real-Time / Live Data Science Dashboard")
+st.title("Real-Time Sentiment Analysis of Youtube LiveChat")
 
 # top-level filters 
+with st.form(key = 'inputform'):
+   textinputval = st.text_input("Enter LiveChatId:")
+   submitbutton = st.form_submit_button(label="Submit", help=None, on_click=None, disabled= False)
+
+if submitbutton:
+    baseurl = f"https://httpbin.org/get"
+    resp = requests.get(baseurl)
+    print(resp.json())
+    st.success("Please find the results below for your livechatId: {}".format(textinputval) )
+
 
 job_filter = st.selectbox("Select the Job", pd.unique(df['job']))
 
