@@ -1,0 +1,88 @@
+lowercaseOutputName: true
+rules:
+- pattern : kafka.cluster&lt;type=(.+), name=(.+), topic=(.+), partition=(.+)&gt;&lt;&gt;Value
+  name: kafka_cluster_$1_$2
+  labels:
+    topic: "$3"
+    partition: "$4"
+- pattern : kafka.log&lt;type=Log, name=(.+), topic=(.+), partition=(.+)&gt;&lt;&gt;Value
+  name: kafka_log_$1
+  labels:
+    topic: "$2"
+    partition: "$3"
+- pattern : kafka.controller&lt;type=(.+), name=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_controller_$1_$2
+- pattern : kafka.network&lt;type=(.+), name=(.+)&gt;&lt;&gt;Value
+  name: kafka_network_$1_$2
+- pattern : kafka.network&lt;type=(.+), name=(.+)PerSec, request=(.+)&gt;&lt;&gt;Count
+  name: kafka_network_$1_$2_total
+  labels:
+    request: "$3"
+- pattern : kafka.network&lt;type=(.+), name=(\w+), networkProcessor=(.+)&gt;&lt;&gt;Count
+  name: kafka_network_$1_$2
+  labels:
+    request: "$3"
+  type: COUNTER
+- pattern : kafka.network&lt;type=(.+), name=(\w+), request=(\w+)&gt;&lt;&gt;Count
+  name: kafka_network_$1_$2
+  labels:
+    request: "$3"
+- pattern : kafka.network&lt;type=(.+), name=(\w+)&gt;&lt;&gt;Count
+  name: kafka_network_$1_$2
+- pattern : kafka.server&lt;type=(.+), name=(.+)PerSec\w*, topic=(.+)&gt;&lt;&gt;Count
+  name: kafka_server_$1_$2_total
+  labels:
+    topic: "$3"
+- pattern : kafka.server&lt;type=(.+), name=(.+)PerSec\w*&gt;&lt;&gt;Count
+  name: kafka_server_$1_$2_total
+  type: COUNTER
+
+- pattern : kafka.server&lt;type=(.+), name=(.+), clientId=(.+), topic=(.+), partition=(.*)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+  labels:
+    clientId: "$3"
+    topic: "$4"
+    partition: "$5"
+- pattern : kafka.server&lt;type=(.+), name=(.+), topic=(.+), partition=(.*)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+  labels:
+    topic: "$3"
+    partition: "$4"
+- pattern : kafka.server&lt;type=(.+), name=(.+), topic=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+  labels:
+    topic: "$3"
+  type: COUNTER
+
+- pattern : kafka.server&lt;type=(.+), name=(.+), clientId=(.+), brokerHost=(.+), brokerPort=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+  labels:
+    clientId: "$3"
+    broker: "$4:$5"
+- pattern : kafka.server&lt;type=(.+), name=(.+), clientId=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+  labels:
+    clientId: "$3"
+- pattern : kafka.server&lt;type=(.+), name=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_server_$1_$2
+
+- pattern : kafka.(\w+)&lt;type=(.+), name=(.+)PerSec\w*&gt;&lt;&gt;Count
+  name: kafka_$1_$2_$3_total
+- pattern : kafka.(\w+)&lt;type=(.+), name=(.+)PerSec\w*, topic=(.+)&gt;&lt;&gt;Count
+  name: kafka_$1_$2_$3_total
+  labels:
+    topic: "$4"
+  type: COUNTER
+- pattern : kafka.(\w+)&lt;type=(.+), name=(.+)PerSec\w*, topic=(.+), partition=(.+)&gt;&lt;&gt;Count
+  name: kafka_$1_$2_$3_total
+  labels:
+    topic: "$4"
+    partition: "$5"
+  type: COUNTER
+- pattern : kafka.(\w+)&lt;type=(.+), name=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_$1_$2_$3_$4
+  type: COUNTER
+- pattern : kafka.(\w+)&lt;type=(.+), name=(.+), (\w+)=(.+)&gt;&lt;&gt;(Count|Value)
+  name: kafka_$1_$2_$3_$6
+  labels:
+    "$4": "$5"
