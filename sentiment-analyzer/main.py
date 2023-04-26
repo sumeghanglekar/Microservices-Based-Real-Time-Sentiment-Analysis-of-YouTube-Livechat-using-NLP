@@ -1,5 +1,5 @@
 from flask import Flask, request
-from fastText import load_model
+from fasttext import load_model
 
 
 
@@ -15,6 +15,7 @@ def main():
     classifier = load_model("model_tweet.bin")
     msg = request.json['msg']
     labels = classifier.predict(msg)
+    print(labels)
     if(labels[0][0] == '__label__0'):
         return 'negative'
 
