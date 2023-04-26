@@ -30,20 +30,6 @@ st.set_page_config(
 
 st.title("Real-Time Sentiment Analysis of Youtube LiveChat")
 
-# top-level filters 
-# with st.form(key = 'inputform'):
-#    textinputval = st.text_input("Enter LiveChatId:")
-#    submitbutton = st.form_submit_button(label="Submit", help=None, on_click=None, disabled= False)
-#
-# if submitbutton:
-#     baseurl = f"https://httpbin.org/get"
-#     resp = requests.get(baseurl)
-#     print(resp.json())
-#     st.success("Please find the results below for your livechatId: {}".format(textinputval) )
-
-
-# job_filter = st.selectbox("Select the Job", pd.unique(df['job']))
-
 # creating a single-element container.
 placeholder = st.empty()
 
@@ -56,20 +42,18 @@ placeholder = st.empty()
 while True:
     # while True:
     data = []
+    total_messages = 0
+    positive_messages = 0
+    negative_messages = 0
 
 
     newdf = pd.DataFrame(data, columns=['Numbers'])
 
     for event in consumer:
-        df['age_new'] = df['age'] * np.random.choice(range(1, 5))
-        df['balance_new'] = df['balance'] * np.random.choice(range(1, 5))
-
         event_data = event.value
         data.append(event_data)
         print(data)
-        # Do whatever you want
-        # print(event_data)
-        # sleep(2)
+
         # creating KPIs
         avg_age = np.mean(df['age_new'])
 
@@ -82,7 +66,7 @@ while True:
             kpi1, kpi2, kpi3 = st.columns(3)
 
             # fill in those three columns with respective metrics or KPIs
-            kpi1.metric(label="Age ⏳", value=round(avg_age), delta=round(avg_age) - 10)
+            kpi1.metric(label="Total Messages ⏳", value=total_messages)
             kpi2.metric(label="Married Count 💍", value=int(count_married), delta=- 10 + count_married)
             kpi3.metric(label="A/C Balance ＄", value=f"$ {round(balance, 2)} ",
                         delta=- round(balance / count_married) * 100)
