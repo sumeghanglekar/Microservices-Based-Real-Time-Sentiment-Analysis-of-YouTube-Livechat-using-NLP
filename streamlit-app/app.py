@@ -78,6 +78,10 @@ while True:
         else:
             continue
 
+        metrics = consumer.metrics()
+        print("printing metrics")
+        print(type(metrics))
+        print(metrics)
 
         # creating KPIs
         # avg_age = np.mean(df['age_new'])

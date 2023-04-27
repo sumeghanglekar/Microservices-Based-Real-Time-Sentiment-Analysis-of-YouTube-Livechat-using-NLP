@@ -6,9 +6,6 @@ services:
       dockerfile: DockerFile
     volumes:
       - .:/app
-    environment:
-      EXTRA_ARGS: -javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/consumer-config.yml
-
 networks:
   default:
     external: true

@@ -68,4 +68,8 @@ while True:
     print("IT'S ON")
     data = 'amazing stream'
     producer.send('ytchats', value=data)
+    metrics = producer.metrics()
+    print("printing metrics")
+    print(type(metrics))
+    print(metrics)
     sleep(2)
