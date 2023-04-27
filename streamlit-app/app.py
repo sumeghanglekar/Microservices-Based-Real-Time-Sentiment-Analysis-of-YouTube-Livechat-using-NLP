@@ -106,5 +106,5 @@ while True:
             #     st.write(fig2)
             # st.markdown("### Detailed Data View")
             st.dataframe(df)
-            time.sleep(10)
+            time.sleep(4)
     # placeholder.empty()

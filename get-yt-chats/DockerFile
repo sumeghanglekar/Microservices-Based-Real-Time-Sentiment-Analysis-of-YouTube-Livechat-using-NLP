@@ -1,5 +1,9 @@
 FROM python:3.9
 ENV PYTHONUNBUFFERED 1
+
+ADD consumer-config.yml /usr/app/consumer-config.yml
+ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.6/jmx_prometheus_javaagent-0.6.jar /usr/app/jmx_prometheus_javaagent.jar
+
 WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt

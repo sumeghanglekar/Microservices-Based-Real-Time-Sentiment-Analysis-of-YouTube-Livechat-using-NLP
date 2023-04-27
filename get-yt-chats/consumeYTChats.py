@@ -68,4 +68,4 @@ while True:
     print("IT'S ON")
     data = 'amazing stream'
     producer.send('ytchats', value=data)
-    sleep(5)
+    sleep(2)
