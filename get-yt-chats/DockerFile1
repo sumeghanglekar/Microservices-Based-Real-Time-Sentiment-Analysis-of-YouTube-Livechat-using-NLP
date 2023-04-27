@@ -1,0 +1,16 @@
+FROM openjdk:8-jre-alpine
+
+RUN apk update && apk upgrade && apk --update add curl && rm -rf /tmp/* /var/cache/apk/*
+
+#ENV PYTHONUNBUFFERED 1
+#
+#ADD consumer-config.yml /usr/app/consumer-config.yml
+#ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.6/jmx_prometheus_javaagent-0.6.jar /usr/app/jmx_prometheus_javaagent.jar
+#
+#RUN chmod +x /usr/app/jmx_prometheus_javaagent.jar
+#
+#EXPOSE 8080
+#
+#EXPOSE 10254
+#
+#CMD /usr/bin/java -Dspring.profiles.active=default -javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/consumer-config.yml

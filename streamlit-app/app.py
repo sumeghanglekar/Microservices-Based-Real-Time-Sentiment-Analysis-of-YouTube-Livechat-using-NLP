@@ -18,7 +18,7 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: loads(x.decode('utf-8'))
 )
 
-url = "http://localhost:8000/fastSentiment"
+url = "http://172.22.0.6:5000/fastSentiment"
 
 # read csv from a github repo
 # df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
@@ -68,17 +68,17 @@ while True:
             'Content-Type': 'application/json'
         }
 
-        # response = requests.request("POST", url, headers=headers, data=payload)
-        # print(response.text)
-        #
-        # if response.text == 'positive':
-        #     positive_messages = positive_messages + 1
-        # elif response.text == 'negative':
-        #     negative_messages = negative_messages + 1
-        # else:
-        #     continue
-        df['positive_messages'] = df['positive_messages'] + 2
-        df['negative_messages'] = df['negative_messages'] + 1
+        response = requests.request("POST", url, headers=headers, data=payload)
+        print(response.text)
+
+        if response.text == 'positive':
+            df['positive_messages'] = df['positive_messages'] + 1
+        elif response.text == 'negative':
+            df['negative_messages'] = df['negative_messages'] + 1
+        else:
+            continue
+
+
         # creating KPIs
         # avg_age = np.mean(df['age_new'])
 
@@ -106,5 +106,4 @@ while True:
             #     st.write(fig2)
             # st.markdown("### Detailed Data View")
             st.dataframe(df)
-            time.sleep(4)
     # placeholder.empty()
