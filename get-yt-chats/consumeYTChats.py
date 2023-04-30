@@ -5,6 +5,7 @@ import config
 from json import dumps
 from kafka import KafkaProducer
 from time import sleep
+from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
 
 
@@ -63,6 +64,7 @@ producer = KafkaProducer(
         value_serializer=lambda x: dumps(x).encode('utf-8')
     )
 
+
 while True:
     # print("Iteration", j)
     print("IT'S ON")
@@ -72,4 +74,11 @@ while True:
     print("printing metrics")
     print(type(metrics))
     print(metrics)
+
+    registry = CollectorRegistry()
+    g = Gauge('job_last_success_unixtime', 'Last time a batch job successfully finished', registry=registry)
+    g.set_to_current_time()
+    push_to_gateway('http://172.22.0.4:9090', job='batchA', registry=registry)
+
+
     sleep(2)

@@ -24,7 +24,7 @@ url = "http://172.22.0.6:5000/fastSentiment"
 # df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
 
 st.set_page_config(
-    page_title='Real-Time Data Science Dashboard',
+    page_title='Real-Time Sentiment Analysis of Youtube LiveChat',
     page_icon='✅',
     layout='wide'
 )

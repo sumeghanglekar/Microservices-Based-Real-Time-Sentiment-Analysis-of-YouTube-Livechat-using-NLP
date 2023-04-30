@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: DockerFile
+    ports:
+      - 9000:9000
     volumes:
       - .:/app
 networks:
