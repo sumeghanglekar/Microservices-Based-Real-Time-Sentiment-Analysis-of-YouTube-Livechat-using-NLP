@@ -5,8 +5,8 @@ import config
 from json import dumps
 from kafka import KafkaProducer
 from time import sleep
-from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
-
+from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
+from prometheus_client import start_http_server
 
 
 # def append_last_msgs(results, last_timestamp):
@@ -83,20 +83,41 @@ producer = KafkaProducer(
     )
 
 
+class CollectProducterMetrics(object):
+    def __init__(self):
+        pass
+
+    def collect(self):
+        metrics = producer.metrics()
+
+        response_rate = GaugeMetricFamily("producer_response_rate", "Producer Response Rate", labels=["producer_response_rate"])
+        response_rate.add_metric(['producer_response_rate'],  metrics['producer-metrics']['response-rate'])
+        yield response_rate
+
+        request_rate = GaugeMetricFamily("producer_request_rate", "Producer Request Rate", labels=["producer_request_rate"])
+        request_rate.add_metric(['producer_request_rate'], metrics['producer-metrics']['request-rate'])
+        yield request_rate
+
+        request_latency_avg = GaugeMetricFamily("producer_request_latency_avg", "Producer Request Latency Avg", labels=["producer_request_latency_avg"])
+        request_latency_avg.add_metric(['producer_request_latency_avg'], metrics['producer-metrics']['request-latency-avg'])
+        yield request_latency_avg
+
+        outgoing_byte_rate = GaugeMetricFamily("producer_outgoing_byte_rate", "Producer Outgoing Byte Rate", labels=["producer_outgoing_byte_rate"])
+        outgoing_byte_rate.add_metric(['producer_outgoing_byte_rate'], metrics['producer-metrics']['outgoing-byte-rate'])
+        yield outgoing_byte_rate
+
+start_http_server(9000)
+REGISTRY.register(CollectProducterMetrics())
+
 while True:
+
     # print("Iteration", j)
     print("IT'S ON")
     data = 'amazing stream'
     producer.send('ytchats', value=data)
     metrics = producer.metrics()
-    print("printing metrics")
+    print("printing producer metrics")
     print(type(metrics))
-    print(metrics)
-
-    registry = CollectorRegistry()
-    g = Gauge('job_last_success_unixtime', 'Last time a batch job successfully finished', registry=registry)
-    g.set_to_current_time()
-    push_to_gateway('http://172.22.0.4:9090', job='batchA', registry=registry)
-
+    print(metrics['producer-metrics']['response-rate'])
 
     sleep(2)

@@ -2,7 +2,7 @@
 A microservices-based application that studies the sentiment of YouTube live chat comments in real-time using Python, YouTube API, Docker containers and Kafka streaming service.
 
 Steps:
-1. Run "docker compose up" inside the kafka-docker directory
+1. Run 'docker compose up' inside the kafka-docker directory
 
 2. Check if Prometheus is up at http://localhost:9090/
 
