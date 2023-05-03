@@ -90,21 +90,21 @@ class CollectProducterMetrics(object):
     def collect(self):
         metrics = producer.metrics()
 
-        response_rate = GaugeMetricFamily("producer_response_rate", "Producer Response Rate", labels=["producer_response_rate"])
-        response_rate.add_metric(['producer_response_rate'],  metrics['producer-metrics']['response-rate'])
-        yield response_rate
+        producer_response_rate = GaugeMetricFamily("producer_response_rate", "Producer Response Rate", labels=["producer_response_rate"])
+        producer_response_rate.add_metric(['producer_response_rate'],  metrics['producer-metrics']['response-rate'])
+        yield producer_response_rate
 
-        request_rate = GaugeMetricFamily("producer_request_rate", "Producer Request Rate", labels=["producer_request_rate"])
-        request_rate.add_metric(['producer_request_rate'], metrics['producer-metrics']['request-rate'])
-        yield request_rate
+        producer_request_rate = GaugeMetricFamily("producer_request_rate", "Producer Request Rate", labels=["producer_request_rate"])
+        producer_request_rate.add_metric(['producer_request_rate'], metrics['producer-metrics']['request-rate'])
+        yield producer_request_rate
 
-        request_latency_avg = GaugeMetricFamily("producer_request_latency_avg", "Producer Request Latency Avg", labels=["producer_request_latency_avg"])
-        request_latency_avg.add_metric(['producer_request_latency_avg'], metrics['producer-metrics']['request-latency-avg'])
-        yield request_latency_avg
+        producer_request_latency_avg = GaugeMetricFamily("producer_request_latency_avg", "Producer Request Latency Avg", labels=["producer_request_latency_avg"])
+        producer_request_latency_avg.add_metric(['producer_request_latency_avg'], metrics['producer-metrics']['request-latency-avg'])
+        yield producer_request_latency_avg
 
-        outgoing_byte_rate = GaugeMetricFamily("producer_outgoing_byte_rate", "Producer Outgoing Byte Rate", labels=["producer_outgoing_byte_rate"])
-        outgoing_byte_rate.add_metric(['producer_outgoing_byte_rate'], metrics['producer-metrics']['outgoing-byte-rate'])
-        yield outgoing_byte_rate
+        producer_outgoing_byte_rate = GaugeMetricFamily("producer_outgoing_byte_rate", "Producer Outgoing Byte Rate", labels=["producer_outgoing_byte_rate"])
+        producer_outgoing_byte_rate.add_metric(['producer_outgoing_byte_rate'], metrics['producer-metrics']['outgoing-byte-rate'])
+        yield producer_outgoing_byte_rate
 
 start_http_server(9000)
 REGISTRY.register(CollectProducterMetrics())

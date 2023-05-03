@@ -3,3 +3,4 @@ pandas
 plotly.express
 streamlit
 kafka-python
+prometheus_client

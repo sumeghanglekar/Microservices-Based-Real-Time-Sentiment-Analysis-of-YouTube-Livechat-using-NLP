@@ -8,6 +8,8 @@ from json import loads
 from time import sleep
 import requests
 import json
+from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
+from prometheus_client import start_http_server
 
 consumer = KafkaConsumer(
     'ytchats',
@@ -17,6 +19,40 @@ consumer = KafkaConsumer(
     group_id='my-group-id',
     value_deserializer=lambda x: loads(x.decode('utf-8'))
 )
+
+class CollectConsumerMetrics(object):
+    def __init__(self):
+        pass
+
+    def collect(self):
+        metrics = consumer.metrics()
+
+        consumer_response_rate = GaugeMetricFamily("consumer_response_rate", "Consumer Response Rate", labels=["consumer_response_rate"])
+        consumer_response_rate.add_metric(['consumer_response_rate'],  metrics['consumer-metrics']['response-rate'])
+        yield consumer_response_rate
+
+        consumer_request_rate = GaugeMetricFamily("consumer_request_rate", "Consumer Request Rate", labels=["consumer_request_rate"])
+        consumer_request_rate.add_metric(['consumer_request_rate'], metrics['consumer-metrics']['request-rate'])
+        yield consumer_request_rate
+
+        consumer_request_latency_avg = GaugeMetricFamily("consumer_request_latency_avg", "Consumer Request Latency Avg", labels=["consumer_request_latency_avg"])
+        consumer_request_latency_avg.add_metric(['consumer_request_latency_avg'], metrics['consumer-metrics']['request-latency-avg'])
+        yield consumer_request_latency_avg
+
+        consumer_outgoing_byte_rate = GaugeMetricFamily("consumer_outgoing_byte_rate", "Consumer Outgoing Byte Rate", labels=["consumer_outgoing_byte_rate"])
+        consumer_outgoing_byte_rate.add_metric(['consumer_outgoing_byte_rate'], metrics['consumer-metrics']['outgoing-byte-rate'])
+        yield consumer_outgoing_byte_rate
+
+        consumer_fetch_rate = GaugeMetricFamily("consumer_fetch_rate", "Consumer Fetch Rate",labels=["consumer_fetch_rate"])
+        consumer_fetch_rate.add_metric(['consumer_fetch_rate'], metrics['consumer-fetch-manager-metrics']['fetch-rate'])
+        yield consumer_fetch_rate
+
+        consumer_records_lag_max = GaugeMetricFamily("consumer_records_lag_max", "Consumer Records Lag Max", labels=["consumer_records_lag_max"])
+        consumer_records_lag_max.add_metric(['consumer_records_lag_max'], metrics['consumer-fetch-manager-metrics']['records-lag-max'])
+        yield consumer_records_lag_max
+
+start_http_server(9006)
+REGISTRY.register(CollectConsumerMetrics())
 
 url = "http://172.22.0.6:5000/fastSentiment"
 
@@ -53,8 +89,6 @@ while True:
               'negative_messages': negative_messages}
     df = pd.DataFrame(counts,index=[0])
 
-    newdf = pd.DataFrame(data, columns=['Numbers'])
-
     for event in consumer:
         print(df)
         event_data = event.value
@@ -81,7 +115,7 @@ while True:
         metrics = consumer.metrics()
         print("printing metrics")
         print(type(metrics))
-        print(metrics)
+        print(metrics['consumer-fetch-manager-metrics']['records-lag-max'])
 
         # creating KPIs
         # avg_age = np.mean(df['age_new'])
