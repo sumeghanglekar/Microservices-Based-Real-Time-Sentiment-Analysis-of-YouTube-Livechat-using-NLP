@@ -10,7 +10,6 @@ def test():
     return 'Hello'
 
 @app.route('/fastSentiment',methods=["POST"])
-
 def main():
     classifier = load_model("model_tweet.bin")
     msg = request.json['msg']
