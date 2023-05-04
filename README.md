@@ -36,7 +36,6 @@ https://www.metricfire.com/blog/kafka-monitoring/
 https://towardsdatascience.com/kafka-docker-python-408baf0e1088
 docker run --rm -it --entrypoint sh f73c0d015bd8
 
-Hardcoded values: 
-1. prometheus targets in prometheus.yml
-2. sentiment-analyzer IP in streamlit-app
-3. prometheus datasource endpoint in grafana dashboard
+
+model_tweet.bin file:
+https://drive.google.com/file/d/1X6OaERlUnJNXjz26CNOnP6XcOXZPNqV9/view?usp=sharing
