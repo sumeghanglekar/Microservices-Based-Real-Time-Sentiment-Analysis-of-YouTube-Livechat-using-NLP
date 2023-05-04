@@ -54,7 +54,7 @@ class CollectConsumerMetrics(object):
 start_http_server(9006)
 REGISTRY.register(CollectConsumerMetrics())
 
-url = "http://172.22.0.6:5000/fastSentiment"
+url = "http://172.22.0.7:5000/fastSentiment"
 
 # read csv from a github repo
 # df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")

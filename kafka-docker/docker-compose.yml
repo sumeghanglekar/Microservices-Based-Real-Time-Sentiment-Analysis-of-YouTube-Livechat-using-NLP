@@ -6,6 +6,9 @@ services:
      - "9090:9090"
    volumes:
      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+   networks:
+     prod:
+       ipv4_address: 172.22.0.2
 
  grafana:
    image: grafana/grafana
@@ -13,11 +16,17 @@ services:
      - "3000:3000"
    volumes:
      - ./grafana:/var/lib/grafana
+   networks:
+     prod:
+       ipv4_address: 172.22.0.3
 
  zookeeper:
    image: wurstmeister/zookeeper
    ports:
      - "2181:2181"
+   networks:
+     prod:
+       ipv4_address: 172.22.0.4
 
  kafka:
    build: .
@@ -38,3 +47,13 @@ services:
      KAFKA_OPTS: -javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/broker-config.yml
    volumes:
      - /var/run/docker.sock:/var/run/docker.sock
+   networks:
+     prod:
+       ipv4_address: 172.22.0.5
+
+networks:
+  prod:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24

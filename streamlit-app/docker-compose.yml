@@ -8,7 +8,10 @@ services:
       - 8002:8501
     volumes:
       - .:/app
+    networks:
+      default:
+        ipv4_address: 172.22.0.8
 networks:
   default:
-    external:
-      name: kafka-docker_default
+    external: true
+    name: kafka-docker_prod
