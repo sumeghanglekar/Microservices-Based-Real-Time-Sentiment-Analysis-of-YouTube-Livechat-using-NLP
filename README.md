@@ -1,5 +1,8 @@
 # Real-time-Sentiment-Analysis-of-YouTube-live-chat-using-NLP-and-Microservices
-A microservices-based application that studies the sentiment of YouTube live chat comments in real-time using Python, YouTube API, Docker containers and Kafka streaming service.
+A microservices-based application that studies the sentiment of YouTube live chat comments in real-time using Python, YouTube API, Docker, Kafka, Prometheus and Grafana.
+
+Download the model_tweet.bin [file](https://drive.google.com/file/d/1X6OaERlUnJNXjz26CNOnP6XcOXZPNqV9/view?usp=sharing) and place it the sentiment-analyzer directory.
+
 
 Steps:
 1. Run 'docker compose up' inside the kafka-docker directory
@@ -38,4 +41,3 @@ docker run --rm -it --entrypoint sh f73c0d015bd8
 
 
 model_tweet.bin file:
-https://drive.google.com/file/d/1X6OaERlUnJNXjz26CNOnP6XcOXZPNqV9/view?usp=sharing

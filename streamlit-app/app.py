@@ -84,10 +84,12 @@ while True:
     total_messages = 0
     positive_messages = 0
     negative_messages = 0
-    counts = {'total_messages':total_messages,
-              'positive_messages':positive_messages,
+    sentiment = 0
+    counts = {'positive_messages':positive_messages,
               'negative_messages': negative_messages}
     df = pd.DataFrame(counts,index=[0])
+    line_data = {"sentiment": sentiment}
+    line_data_df = pd.DataFrame(line_data,index=[0])
 
     for event in consumer:
         print(df)
@@ -107,9 +109,14 @@ while True:
 
         if response.text == 'positive':
             df['positive_messages'] = df['positive_messages'] + 1
+            total_messages = total_messages + 1
+            sentiment = sentiment + 1
         elif response.text == 'negative':
             df['negative_messages'] = df['negative_messages'] + 1
+            total_messages = total_messages + 1
+            sentiment = sentiment - 1
         else:
+            total_messages = total_messages + 1
             continue
 
         metrics = consumer.metrics()
@@ -129,7 +136,7 @@ while True:
             kpi1, kpi2, kpi3 = st.columns(3)
 
             # fill in those three columns with respective metrics or KPIs
-            kpi1.metric(label="Total Messages", value=df['total_messages'])
+            kpi1.metric(label="Total Messages", value=total_messages)
             kpi2.metric(label="Positive Messages", value=df['positive_messages'])
             kpi3.metric(label="Negative Messages", value=df['negative_messages'])
 
@@ -137,11 +144,15 @@ while True:
 
             fig_col1, fig_col2 = st.columns(2)
             with fig_col1:
+                st.markdown("Sentiment Distribution of Messages")
                 st.bar_chart(df)
-            # with fig_col2:
-            #     st.markdown("### Second Chart")
-            #     fig2 = px.histogram(data_frame=df, x='age_new')
-            #     st.write(fig2)
-            # st.markdown("### Detailed Data View")
+
+            with fig_col2:
+                st.markdown("Sentiment Over Time")
+                line_data_df.loc[len(line_data_df.index)] = [sentiment]
+                print(line_data_df)
+                st.line_chart(line_data_df)
+
+
+            st.markdown("Tabular View")
             st.dataframe(df)
-    # placeholder.empty()

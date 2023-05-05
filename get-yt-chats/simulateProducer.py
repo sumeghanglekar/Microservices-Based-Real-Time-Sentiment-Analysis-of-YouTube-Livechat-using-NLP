@@ -7,6 +7,7 @@ from kafka import KafkaProducer
 from time import sleep
 from prometheus_client.core import GaugeMetricFamily, REGISTRY, CounterMetricFamily
 from prometheus_client import start_http_server
+import random
 
 
 producer = KafkaProducer(
@@ -42,11 +43,14 @@ start_http_server(9000)
 REGISTRY.register(CollectProducterMetrics())
 
 while True:
-    data = 'amazing stream'
-    producer.send('ytchats', value=data)
+    data = ['amazing stream','boring stream']
+    index = random.randint(0, 1)
+
+    producer.send('ytchats', value=data[index])
     metrics = producer.metrics()
     print("printing producer metrics")
     print(type(metrics))
     print(metrics['producer-metrics']['response-rate'])
 
-    sleep(2)
+    sleepduration = random.randint(0, 10)
+    sleep(sleepduration)
