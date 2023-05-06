@@ -56,9 +56,6 @@ REGISTRY.register(CollectConsumerMetrics())
 
 url = "http://172.22.0.7:5000/fastSentiment"
 
-# read csv from a github repo
-# df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
-
 st.set_page_config(
     page_title='Real-Time Sentiment Analysis of Youtube LiveChat',
     page_icon='✅',
@@ -72,14 +69,7 @@ st.title("Real-Time Sentiment Analysis of Youtube LiveChat")
 # creating a single-element container.
 placeholder = st.empty()
 
-# dataframe filter 
-
-# df = df[df['job'] == job_filter]
-
-# near real-time / live feed simulation 
-
 while True:
-    # while True:
     data = []
     total_messages = 0
     positive_messages = 0
@@ -124,15 +114,8 @@ while True:
         print(type(metrics))
         print(metrics['consumer-fetch-manager-metrics']['records-lag-max'])
 
-        # creating KPIs
-        # avg_age = np.mean(df['age_new'])
-
-        # count_married = int(df[(df["marital"] == 'married')]['marital'].count() + np.random.choice(range(1, 30)))
-
-        # balance = np.mean(df['balance_new'])
 
         with placeholder.container():
-            # create three columns
             kpi1, kpi2, kpi3 = st.columns(3)
 
             # fill in those three columns with respective metrics or KPIs
@@ -153,6 +136,7 @@ while True:
                 print(line_data_df)
                 st.line_chart(line_data_df)
 
-
-            st.markdown("Tabular View")
-            st.dataframe(df)
+            fig_col3, fig_col4 = st.columns(2)
+            with fig_col3:
+                st.markdown("Tabular View")
+                st.dataframe(df)
