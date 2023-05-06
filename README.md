@@ -27,6 +27,7 @@ The system uses YouTube Data API to fetch live chats from the livestream.
 
 
 ### Application Demo:
+https://www.youtube.com/watch?v=aaRsGzNv9cE
 
 ### Resources:
 1. https://www.datadoghq.com/blog/monitoring-kafka-performance-metrics/
